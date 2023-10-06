@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Pong\\PongGame.csproj": {}
+    "C:\\Pong\\PongGame.csproj": {}
   },
   "projects": {
-    "c:\\Pong\\PongGame.csproj": {
+    "C:\\Pong\\PongGame.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Pong\\PongGame.csproj",
+        "projectUniqueName": "C:\\Pong\\PongGame.csproj",
         "projectName": "PongGame",
-        "projectPath": "c:\\Pong\\PongGame.csproj",
+        "projectPath": "C:\\Pong\\PongGame.csproj",
         "packagesPath": "C:\\Users\\nibbl\\.nuget\\packages\\",
-        "outputPath": "c:\\Pong\\obj\\",
+        "outputPath": "C:\\Pong\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\nibbl\\AppData\\Roaming\\NuGet\\NuGet.Config"

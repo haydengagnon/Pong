@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "nmUb4nmX2hAUh1qFeEN6CBckqUV6lBu6WZqOvkpkRW9KXlQLtewQ4VqBqX0556FxFwwBmzc7JzHvfkekYIfEMA==",
+  "dgSpecHash": "FpoGd0SJ9RjwkX012AkS1okGg1DQo2G4NJ8ShomKVBd2gta9bKPL+6UJbOK8NxsFNBHzpXKy3TDShBXQmgh/NA==",
   "success": true,
-  "projectFilePath": "c:\\Pong\\PongGame.csproj",
+  "projectFilePath": "C:\\Pong\\PongGame.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

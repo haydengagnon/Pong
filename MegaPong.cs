@@ -20,8 +20,10 @@ namespace PongGame
         private int player2PaddleY = SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2;        
         private int player3PaddleX = SCREEN_WIDTH / 2 - PADDLE_HEIGHT / 2;
         private int player4PaddleX = SCREEN_WIDTH / 2 - PADDLE_HEIGHT / 2;
-        private int player1Lives = 0;
-        private int player2Lives = 0;
+        private int player1Lives = 4;
+        private int player2Lives = 4;
+        private int player3Lives = 4;
+        private int player4Lives = 4;
 
         public MegaPong()
         {
@@ -52,6 +54,8 @@ namespace PongGame
             // Draw scores
             e.Graphics.DrawString(player1Lives.ToString(), Font, Brushes.White, SCREEN_WIDTH / 2 - 50, 10);
             e.Graphics.DrawString(player2Lives.ToString(), Font, Brushes.White, SCREEN_WIDTH / 2 + 30, 10);
+            e.Graphics.DrawString(player3Lives.ToString(), Font, Brushes.White, SCREEN_WIDTH / 3 + 110, 10);
+            e.Graphics.DrawString(player4Lives.ToString(), Font, Brushes.White, SCREEN_WIDTH / 3 - 130, 10);
         }
 
         private void MegaPong_KeyDown(object sender, KeyEventArgs e)
@@ -65,31 +69,7 @@ namespace PongGame
             {
                 player1PaddleY += PADDLE_MOVE_AMOUNT;
             }
-            else if (e.KeyCode == Keys.Up && player2PaddleY > 0)
-            {
-                player2PaddleY -= PADDLE_MOVE_AMOUNT;
-            }
-            else if (e.KeyCode == Keys.Down && player2PaddleY < SCREEN_HEIGHT - PADDLE_HEIGHT)
-            {
-                player2PaddleY += PADDLE_MOVE_AMOUNT;
-            }
-            else if (e.KeyCode == Keys.O && player3PaddleX > 0)
-            {
-                player3PaddleX -= PADDLE_MOVE_AMOUNT;
-            }
-            else if (e.KeyCode == Keys.P && player3PaddleX < SCREEN_WIDTH - PADDLE_HEIGHT)
-            {
-                player3PaddleX += PADDLE_MOVE_AMOUNT;
-            }
-            else if (e.KeyCode == Keys.N && player4PaddleX > 0)
-            {
-                player4PaddleX -= PADDLE_MOVE_AMOUNT;
-            }
-            else if (e.KeyCode == Keys.M && player4PaddleX < SCREEN_WIDTH - PADDLE_HEIGHT)
-            {
-                player4PaddleX += PADDLE_MOVE_AMOUNT;
-            }
-
+            
             if (e.KeyCode == Keys.Escape)
             {
                 FormHome gohome = new FormHome();
@@ -104,20 +84,39 @@ namespace PongGame
             ballX += ballXVelocity;
             ballY += ballYVelocity;
 
-            // Check if ball hits top or bottom of screen
-            if (ballY - BALL_RADIUS <= 0 || ballY + BALL_RADIUS >= SCREEN_HEIGHT)
+            //Computer paddle movement
+            if (player2PaddleY > ballY && player2PaddleY > 0)
             {
-                ballYVelocity = -ballYVelocity;
+                player2PaddleY -= 5;
+            }
+            else if (player2PaddleY < ballY - PADDLE_HEIGHT / 2 && player2PaddleY < SCREEN_HEIGHT - PADDLE_HEIGHT)
+            {
+                player2PaddleY += 5;
+            }
+
+            if (player3PaddleX > ballX && player3PaddleX > 0)
+            {
+                player3PaddleX -= 5;
+            }
+            else if (player3PaddleX < ballX - PADDLE_HEIGHT / 2 && player3PaddleX < SCREEN_WIDTH - PADDLE_HEIGHT)
+            {
+                player3PaddleX += 5;
+            }
+
+            if (player4PaddleX > ballX && player4PaddleX > 0)
+            {
+                player4PaddleX -= 5;
+            }
+            else if (player4PaddleX < ballX - PADDLE_HEIGHT / 2 && player4PaddleX < SCREEN_WIDTH - PADDLE_HEIGHT)
+            {
+                player4PaddleX += 5;
             }
 
             // Check if ball hits player paddles
             if (ballX - BALL_RADIUS <= PADDLE_WIDTH && ballY >= player1PaddleY && ballY <= player1PaddleY + PADDLE_HEIGHT)
             {
                 ballXVelocity = -ballXVelocity;
-                if (ballXVelocity < 10)
-                {
-                    ballXVelocity++;
-                }
+
                 if (ballY < player1PaddleY + PADDLE_HEIGHT && ballY > player1PaddleY + PADDLE_HEIGHT / 2) 
                 {
                     ballYVelocity++;
@@ -130,29 +129,63 @@ namespace PongGame
             else if (ballX + BALL_RADIUS >= SCREEN_WIDTH - PADDLE_WIDTH && ballY >= player2PaddleY && ballY <= player2PaddleY + PADDLE_HEIGHT)
             {
                 ballXVelocity = -ballXVelocity;
-                if (ballXVelocity > -10)
-                {
-                    ballXVelocity--;
-                }
+                
                 if (ballY < player2PaddleY + PADDLE_HEIGHT && ballY > player2PaddleY + PADDLE_HEIGHT / 2) 
                 {
                     ballYVelocity++;
                 }
-                else if (ballY > player2PaddleY && ballY < player2PaddleY + PADDLE_HEIGHT /2)
+                else if (ballY > player2PaddleY && ballY < player2PaddleY + PADDLE_HEIGHT / 2)
                 {
                     ballYVelocity--;
                 }
             }
+            else if (ballY - BALL_RADIUS <= PADDLE_WIDTH && ballX >= player3PaddleX && ballX <= player3PaddleX + PADDLE_HEIGHT)
+            {
+                ballYVelocity = -ballYVelocity;
+
+                if (ballX < player3PaddleX + PADDLE_HEIGHT && ballX > player3PaddleX + PADDLE_HEIGHT / 2)
+                {
+                    ballXVelocity++;
+                }
+                else if (ballX > player3PaddleX && ballX < player3PaddleX + PADDLE_HEIGHT / 2)
+                {
+                    ballXVelocity--;
+                }
+            }
+            else if (ballY + BALL_RADIUS >= SCREEN_HEIGHT - PADDLE_WIDTH && ballX >= player4PaddleX && ballX <= player4PaddleX + PADDLE_HEIGHT)
+            {
+                ballYVelocity = -ballYVelocity;
+
+                if (ballX < player4PaddleX + PADDLE_HEIGHT && ballX > player4PaddleX + PADDLE_HEIGHT / 2)
+                {
+                    ballXVelocity++;
+                }
+                else if (ballX > player4PaddleX && ballX < player4PaddleX + PADDLE_HEIGHT / 2)
+                {
+                    ballXVelocity--;
+                }
+            }
+
 
             // Check if ball goes out of bounds
             if (ballX - BALL_RADIUS <= 0)
             {
-                player2Lives++;
+                player2Lives--;
                 ResetBall();
             }
             else if (ballX + BALL_RADIUS >= SCREEN_WIDTH)
             {
-                player1Lives++;
+                player1Lives--;
+                ResetBall();
+            }
+            else if (ballY + BALL_RADIUS <= 0)
+            {
+                player3Lives--;
+                ResetBall();
+            }
+            else if (ballY + BALL_RADIUS >= SCREEN_HEIGHT)
+            {
+                player4Lives--;
                 ResetBall();
             }
 
