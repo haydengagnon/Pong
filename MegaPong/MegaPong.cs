@@ -24,7 +24,7 @@ namespace PongGame
         private int player2Lives = 5;
         private int player3Lives = 5;
         private int player4Lives = 5;
-        private int cpuMovement = 3;
+        private int cpuMovement = 5;
 
         public MegaPong()
         {
