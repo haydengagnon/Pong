@@ -9,7 +9,8 @@ namespace PongGame
         private const int SCREEN_WIDTH = 1000;
         private const int SCREEN_HEIGHT = 600;
 
-        public SurvivalGameOver()
+
+        public SurvivalGameOver(int score)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -18,7 +19,7 @@ namespace PongGame
             this.BackColor = Color.Black;
 
             Label winner = new Label();
-            winner.Text = "Score: " ;
+            winner.Text = "Score: " + score;
             winner.ForeColor = Color.Green;
             winner.BackColor = Color.Black;
             winner.Font = new Font(winner.Font.FontFamily, 48);

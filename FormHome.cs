@@ -27,6 +27,15 @@ namespace PongGame
             gameCenter.BorderStyle = BorderStyle.None;
             this.Controls.Add(gameCenter);
 
+            Label backKey = new Label();
+            backKey.Text = "Hit Esc at any time to return to this menu";
+            backKey.ForeColor = Color.Yellow;
+            backKey.Font = new Font(backKey.Font.FontFamily, 20);
+            backKey.Size = new Size(SCREEN_WIDTH, 100);
+            backKey.Location = new Point(0, 60);
+            backKey.TextAlign = ContentAlignment.MiddleCenter;
+            this.Controls.Add(backKey);
+
             Button pong = new Button();
             pong.Text = "Pong";
             pong.ForeColor = Color.Black;

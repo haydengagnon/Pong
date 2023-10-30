@@ -155,11 +155,11 @@ namespace PongGame
                 ResetBall();
             }
 
-            // Redraw form
+            // Game over screen
             this.Invalidate();
             if (player2Score > 0)
             {
-                SurvivalGameOver p1score = new SurvivalGameOver();
+                SurvivalGameOver p1score = new SurvivalGameOver(player1Score);
                 p1score.Show();
                 player2Score--;
                 this.Close();

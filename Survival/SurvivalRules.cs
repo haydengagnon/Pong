@@ -64,5 +64,15 @@ namespace PongGame
             survivalGame.Show();
             this.Close();
         }
+
+        private void PSelect_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                FormHome gohome = new FormHome();
+                gohome.Show();
+                this.Close();
+            }
+        }
     }
 }
