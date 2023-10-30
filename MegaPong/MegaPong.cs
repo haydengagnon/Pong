@@ -14,8 +14,9 @@ namespace PongGame
         private const int PADDLE_MOVE_AMOUNT = 20;
         private int ballX = SCREEN_WIDTH / 2;
         private int ballY = SCREEN_HEIGHT / 2;
-        private int ballXVelocity = -5;
+        private int ballXVelocity = 0;
         private int ballYVelocity = 0;
+        private int p1PaddleVelocity = 0;
         private int player1PaddleY = SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2;
         private int player2PaddleY = SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2;        
         private int player3PaddleX = SCREEN_WIDTH / 2 - PADDLE_HEIGHT / 2;
@@ -24,10 +25,34 @@ namespace PongGame
         private int player2Lives = 5;
         private int player3Lives = 5;
         private int player4Lives = 5;
-        private int cpuMovement = 5;
+        private int cpuMovement = 2;
+        private int direction;
 
         public MegaPong()
         {
+            Random directionGenerator = new Random();
+            direction = directionGenerator.Next(3);
+            if (direction == 0)
+            {
+                ballXVelocity = -5;
+                ballYVelocity = 0;
+            }
+            else if(direction == 1)
+            {
+                ballXVelocity = 5;
+                ballYVelocity = 0;
+            }
+            else if (direction == 2)
+            {
+                ballYVelocity = -5;
+                ballXVelocity = 0;
+            }
+            else if (direction == 3)
+            {
+                ballYVelocity = 5;
+                ballXVelocity = 0;
+            }
+
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.ClientSize = new Size(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -44,25 +69,28 @@ namespace PongGame
         private void MegaPong_Paint(object sender, PaintEventArgs e)
         {
             // Draw paddles and lives if player has remaining lives
+            //player 1
             if (player1Lives > 0)
             {
                 e.Graphics.FillRectangle(Brushes.Green, 0, player1PaddleY, PADDLE_WIDTH, PADDLE_HEIGHT);
                 e.Graphics.DrawString(player1Lives.ToString(), Font, Brushes.White, 0, player1PaddleY + PADDLE_HEIGHT / 2);
             }
 
-            //p2
+            //player 2
             if (player2Lives > 0)
             {
                 e.Graphics.FillRectangle(Brushes.Red, SCREEN_WIDTH - PADDLE_WIDTH, player2PaddleY, PADDLE_WIDTH, PADDLE_HEIGHT);
                 e.Graphics.DrawString(player2Lives.ToString(), Font, Brushes.White, SCREEN_WIDTH - PADDLE_WIDTH, player2PaddleY + PADDLE_HEIGHT / 2);
             }
 
+            //player 3
             if (player3Lives > 0)
             {
                 e.Graphics.FillRectangle(Brushes.Yellow, player3PaddleX, 0, PADDLE_HEIGHT, PADDLE_WIDTH);
-                e.Graphics.DrawString(player3Lives.ToString(), Font, Brushes.White, player3PaddleX, 0);
+                e.Graphics.DrawString(player3Lives.ToString(), Font, Brushes.Black, player3PaddleX, 0);
             }
 
+            //player 4
             if (player4Lives > 0)
             {
                 e.Graphics.FillRectangle(Brushes.Blue, player4PaddleX, SCREEN_HEIGHT - PADDLE_WIDTH, PADDLE_HEIGHT, PADDLE_WIDTH);
@@ -79,11 +107,11 @@ namespace PongGame
             // Move player paddles
             if (e.KeyCode == Keys.W && player1PaddleY > 0)
             {
-                player1PaddleY -= PADDLE_MOVE_AMOUNT;
+                p1PaddleVelocity -= 8;
             }
-            else if (e.KeyCode == Keys.S && player1PaddleY < SCREEN_HEIGHT - PADDLE_HEIGHT)
+            else if (e.KeyCode == Keys.S  && player1PaddleY < SCREEN_HEIGHT - PADDLE_HEIGHT)
             {
-                player1PaddleY += PADDLE_MOVE_AMOUNT;
+                p1PaddleVelocity += 8;
             }
             
             if (e.KeyCode == Keys.Escape)
@@ -100,14 +128,44 @@ namespace PongGame
             ballX += ballXVelocity;
             ballY += ballYVelocity;
 
+            // Update Paddle Position
+            player1PaddleY += p1PaddleVelocity;
+            if (p1PaddleVelocity > 0)
+            {
+                p1PaddleVelocity--;
+            }
+            else if (p1PaddleVelocity < 0)
+            {
+                p1PaddleVelocity++;
+            }
+
+            // Check if paddle hits top or bottom of screen
+            if(player1PaddleY <= 0 || player1PaddleY + PADDLE_HEIGHT >= SCREEN_HEIGHT)
+            {
+                p1PaddleVelocity = -p1PaddleVelocity;
+            }
+
             //Computer paddle movement
             if (player2PaddleY > ballY && player2PaddleY > 0)
             {
                 player2PaddleY -= cpuMovement;
             }
-            else if (player2PaddleY < ballY - PADDLE_HEIGHT / 2 && player2PaddleY < SCREEN_HEIGHT - PADDLE_HEIGHT)
+            else if (player2PaddleY < ballY - PADDLE_HEIGHT && player2PaddleY < SCREEN_HEIGHT - PADDLE_HEIGHT)
             {
                 player2PaddleY += cpuMovement;
+            }
+            else if (player2PaddleY == ballY - PADDLE_HEIGHT / 2 && player2PaddleY < SCREEN_HEIGHT - PADDLE_HEIGHT)
+            {
+                Random moveGen = new Random();
+                int move = moveGen.Next(1);
+                if (move == 0)
+                {
+                    player2PaddleY += cpuMovement * 4;
+                }
+                else if (move == 1)
+                {
+                    player2PaddleY -= cpuMovement * 4;
+                }
             }
 
             if (player3PaddleX > ballX && player3PaddleX > 0)
@@ -118,15 +176,41 @@ namespace PongGame
             {
                 player3PaddleX += cpuMovement;
             }
+            /*else if (player3PaddleX == ballX - PADDLE_HEIGHT / 2 && player3PaddleX < SCREEN_WIDTH - PADDLE_HEIGHT)
+            {
+                Random moveGen = new Random();
+                int move = moveGen.Next(1);
+                if (move == 0)
+                {
+                    player3PaddleX += cpuMovement * 2;
+                }
+                else if (move == 1)
+                {
+                    player3PaddleX -= cpuMovement * 2;
+                }
+            }*/
 
             if (player4PaddleX > ballX && player4PaddleX > 0)
             {
                 player4PaddleX -= cpuMovement;
             }
-            else if (player4PaddleX < ballX - PADDLE_HEIGHT / 2 && player4PaddleX < SCREEN_WIDTH - PADDLE_HEIGHT)
+            else if (player4PaddleX < ballX - PADDLE_HEIGHT / 2  && player4PaddleX < SCREEN_WIDTH - PADDLE_HEIGHT)
             {
                 player4PaddleX += cpuMovement;
             }
+            /*else if (player4PaddleX == ballX - PADDLE_HEIGHT / 2 && player4PaddleX < SCREEN_WIDTH - PADDLE_HEIGHT)
+            {
+                Random moveGen = new Random();
+                int move = moveGen.Next(1);
+                if (move == 0)
+                {
+                    player4PaddleX += cpuMovement * 2;
+                }
+                else if (move == 1)
+                {
+                    player4PaddleX -= cpuMovement * 2;
+                }
+            }*/
 
             // Check if ball hits player paddles
             if (player1Lives > 0)
@@ -135,11 +219,11 @@ namespace PongGame
                 {
                     ballXVelocity = -ballXVelocity;
 
-                    if (ballY < player1PaddleY + PADDLE_HEIGHT && ballY > player1PaddleY + PADDLE_HEIGHT / 2) 
+                    if (ballY - 1 < player1PaddleY + PADDLE_HEIGHT && ballY > player1PaddleY + PADDLE_HEIGHT / 2) 
                     {
                         ballYVelocity++;
                     }
-                    else if (ballY > player1PaddleY && ballY < player1PaddleY + PADDLE_HEIGHT /2)
+                    else if (ballY + 1 > player1PaddleY && ballY < player1PaddleY + PADDLE_HEIGHT /2)
                     {
                         ballYVelocity--;
                     }
@@ -152,11 +236,11 @@ namespace PongGame
                 {
                     ballXVelocity = -ballXVelocity;
                     
-                    if (ballY < player2PaddleY + PADDLE_HEIGHT && ballY > player2PaddleY + PADDLE_HEIGHT / 2) 
+                    if (ballY - 1 < player2PaddleY + PADDLE_HEIGHT && ballY > player2PaddleY + PADDLE_HEIGHT / 2) 
                     {
                         ballYVelocity++;
                     }
-                    else if (ballY > player2PaddleY && ballY < player2PaddleY + PADDLE_HEIGHT / 2)
+                    else if (ballY + 1 > player2PaddleY && ballY < player2PaddleY + PADDLE_HEIGHT / 2)
                     {
                         ballYVelocity--;
                     }
@@ -169,11 +253,11 @@ namespace PongGame
                 {
                     ballYVelocity = -ballYVelocity;
 
-                    if (ballX < player3PaddleX + PADDLE_HEIGHT && ballX > player3PaddleX + PADDLE_HEIGHT / 2)
+                    if (ballX - 1 < player3PaddleX + PADDLE_HEIGHT && ballX > player3PaddleX + PADDLE_HEIGHT / 2)
                     {
                         ballXVelocity++;
                     }
-                    else if (ballX > player3PaddleX && ballX < player3PaddleX + PADDLE_HEIGHT / 2)
+                    else if (ballX + 1 > player3PaddleX && ballX < player3PaddleX + PADDLE_HEIGHT / 2)
                     {
                         ballXVelocity--;
                     }
@@ -186,11 +270,11 @@ namespace PongGame
                 {
                     ballYVelocity = -ballYVelocity;
 
-                    if (ballX < player4PaddleX + PADDLE_HEIGHT && ballX > player4PaddleX + PADDLE_HEIGHT / 2)
+                    if (ballX - 1 < player4PaddleX + PADDLE_HEIGHT && ballX > player4PaddleX + PADDLE_HEIGHT / 2)
                     {
                         ballXVelocity++;
                     }
-                    else if (ballX > player4PaddleX && ballX < player4PaddleX + PADDLE_HEIGHT / 2)
+                    else if (ballX + 1 > player4PaddleX && ballX < player4PaddleX + PADDLE_HEIGHT / 2)
                     {
                         ballXVelocity--;
                     }
@@ -299,8 +383,30 @@ namespace PongGame
         {
             ballX = SCREEN_WIDTH / 2;
             ballY = SCREEN_HEIGHT / 2;
-            ballXVelocity = -5;
-            ballYVelocity = 0;
+
+            Random directionGenerator = new Random();
+            direction = directionGenerator.Next(3);
+            if (direction == 0)
+            {
+                ballXVelocity = -5;
+                ballYVelocity = 0;
+            }
+            else if(direction == 1)
+            {
+                ballXVelocity = 5;
+                ballYVelocity = 0;
+            }
+            else if (direction == 2)
+            {
+                ballYVelocity = -5;
+                ballXVelocity = 0;
+            }
+            else if (direction == 3)
+            {
+                ballYVelocity = 5;
+                ballXVelocity = 0;
+            }
+
             player1PaddleY = SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2;
             player2PaddleY = SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2;
             player3PaddleX = SCREEN_WIDTH / 2 - PADDLE_HEIGHT / 2;

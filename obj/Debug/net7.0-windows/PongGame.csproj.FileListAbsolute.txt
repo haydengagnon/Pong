@@ -1,4 +1,3 @@
-C:\Pong\obj\Debug\net7.0-windows\PongGame.csproj.AssemblyReference.cache
 C:\Pong\obj\Debug\net7.0-windows\PongGame.GeneratedMSBuildEditorConfig.editorconfig
 C:\Pong\obj\Debug\net7.0-windows\PongGame.AssemblyInfoInputs.cache
 C:\Pong\obj\Debug\net7.0-windows\PongGame.AssemblyInfo.cs

@@ -1,0 +1,5 @@
+C:\Pong\bin\Debug\net7.0-windows\publish\PongGame.exe
+C:\Pong\bin\Debug\net7.0-windows\publish\PongGame.dll
+C:\Pong\bin\Debug\net7.0-windows\publish\PongGame.deps.json
+C:\Pong\bin\Debug\net7.0-windows\publish\PongGame.runtimeconfig.json
+C:\Pong\bin\Debug\net7.0-windows\publish\PongGame.pdb

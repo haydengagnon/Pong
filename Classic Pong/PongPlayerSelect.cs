@@ -31,7 +31,7 @@ namespace PongGame
 
             Label controls = new Label();
             controls.Text = "Controls \n Player 1: up = w | down = s \n Player 2: up = up arrow | down = down arrow";
-            controls.ForeColor = Color.White;
+            controls.ForeColor = Color.Yellow;
             controls.BackColor = Color.Black;
             controls.Font = new Font(controls.Font.FontFamily, 28);
             controls.Size = new Size(SCREEN_WIDTH, 150);

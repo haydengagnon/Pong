@@ -31,7 +31,7 @@ namespace PongGame
             pong.Text = "Pong";
             pong.ForeColor = Color.Black;
             pong.BackColor = Color.Green;
-            pong.Location = new Point(SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 - 30);
+            pong.Location = new Point(SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 - 80);
             pong.Size = new Size(200, 60);
             pong.Click += new EventHandler(OnButtonClickedPong);
             this.Controls.Add(pong);
@@ -40,10 +40,19 @@ namespace PongGame
             megaPong.Text = "Mega Pong";
             megaPong.ForeColor = Color.Black;
             megaPong.BackColor = Color.Green;
-            megaPong.Location = new Point(SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 30);
+            megaPong.Location = new Point(SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2);
             megaPong.Size = new Size(200, 60);
             megaPong.Click += new EventHandler(OnButtonClickedMegaPong);
             this.Controls.Add(megaPong);
+
+            Button survival = new Button();
+            survival.Text = "Survival Mode";
+            survival.ForeColor = Color.Black;
+            survival.BackColor = Color.Green;
+            survival.Location = new Point(SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 80);
+            survival.Size = new Size(200, 60);
+            survival.Click += new EventHandler(OnButtonClickedSurvival);
+            this.Controls.Add(survival);
         }
 
         private void OnButtonClickedPong(object sender, EventArgs e)
@@ -58,6 +67,13 @@ namespace PongGame
         {
             MegaPong megaPongGame = new MegaPong();
             megaPongGame.Show();
+            this.Close();
+        }
+
+        private void OnButtonClickedSurvival(object sender, EventArgs e)
+        {
+            SurvivalRules survivalRules = new SurvivalRules();
+            survivalRules.Show();
             this.Close();
         }
     }
