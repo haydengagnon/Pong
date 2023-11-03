@@ -1,6 +1,8 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Data;
+using System.Data.SQLite;
 
 namespace PongGame
 {
@@ -20,6 +22,7 @@ namespace PongGame
         private int player2PaddleY = SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2;
         public int player1Score = 0;
         private int player2Score = 0;
+        SQLiteConnection sqlite_conn;
 
         public SurvivalPong()
         {
@@ -159,6 +162,7 @@ namespace PongGame
             this.Invalidate();
             if (player2Score > 0)
             {
+                InsertData(sqlite_conn);
                 SurvivalGameOver p1score = new SurvivalGameOver(player1Score);
                 p1score.Show();
                 player2Score--;
@@ -175,6 +179,26 @@ namespace PongGame
             player1PaddleY = SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2;
             player2PaddleY = SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2;
             p1PaddleVelocity = 0;
+        }
+
+        /*static SQLiteConnection CreateConnection()
+        {
+            SQLiteConnection sqlite_conn;
+            sqlite_conn = new SQLiteConnection("Data Source=ScoreList.db;New=False;");
+            sqlite_conn.Open();
+            return sqlite_conn;
+        }*/
+
+        void InsertData(SQLiteConnection conn)
+        {
+            sqlite_conn = new SQLiteConnection("Data Source=ScoreList.db;New=False;");
+            sqlite_conn.Open();
+            SQLiteCommand sqlite_cmd = new SQLiteCommand(sqlite_conn);
+            sqlite_cmd = conn.CreateCommand();
+            sqlite_cmd.CommandText = "INSERT INTO scores (Col1, Col2) VALUES (2, $player1Score);";
+            sqlite_cmd.Parameters.AddWithValue("$player1Score", player1Score);
+            sqlite_cmd.ExecuteNonQuery();
+            sqlite_conn.Close();
         }
     }
 }

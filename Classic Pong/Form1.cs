@@ -56,6 +56,7 @@ namespace PongGame
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
+            // use escape key to return to home
             if (e.KeyCode == Keys.Escape)
             {
                 FormHome gohome = new FormHome();
@@ -172,7 +173,7 @@ namespace PongGame
                 ResetBall();
             }
 
-            // Redraw form
+            // Game over screen
             this.Invalidate();
             if (player1Score == 5)
             {
@@ -190,6 +191,7 @@ namespace PongGame
             }
         }
 
+        // Reset game after a player scores
         private void ResetBall()
         {
             ballX = SCREEN_WIDTH / 2;

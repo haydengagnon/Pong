@@ -36,6 +36,15 @@ namespace PongGame
             backKey.TextAlign = ContentAlignment.MiddleCenter;
             this.Controls.Add(backKey);
 
+            Button survival = new Button();
+            survival.Text = "Survival Mode";
+            survival.ForeColor = Color.Black;
+            survival.BackColor = Color.Green;
+            survival.Location = new Point(SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 80);
+            survival.Size = new Size(200, 60);
+            survival.Click += new EventHandler(OnButtonClickedSurvival);
+            this.Controls.Add(survival);
+
             Button pong = new Button();
             pong.Text = "Pong";
             pong.ForeColor = Color.Black;
@@ -54,14 +63,14 @@ namespace PongGame
             megaPong.Click += new EventHandler(OnButtonClickedMegaPong);
             this.Controls.Add(megaPong);
 
-            Button survival = new Button();
-            survival.Text = "Survival Mode";
-            survival.ForeColor = Color.Black;
-            survival.BackColor = Color.Green;
-            survival.Location = new Point(SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 80);
-            survival.Size = new Size(200, 60);
-            survival.Click += new EventHandler(OnButtonClickedSurvival);
-            this.Controls.Add(survival);
+            Button highScores = new Button();
+            highScores.Text = "High Scores";
+            highScores.ForeColor = Color.Black;
+            highScores.BackColor = Color.Green;
+            highScores.Location = new Point(SCREEN_WIDTH / 2 + 120, SCREEN_HEIGHT / 2 + 80);
+            highScores.Size = new Size(200, 60);
+            highScores.Click += new EventHandler(OnButtonClickedHighScores);
+            this.Controls.Add(highScores);
         }
 
         private void OnButtonClickedPong(object sender, EventArgs e)
@@ -83,6 +92,13 @@ namespace PongGame
         {
             SurvivalRules survivalRules = new SurvivalRules();
             survivalRules.Show();
+            this.Close();
+        }
+
+        private void OnButtonClickedHighScores(object sender, EventArgs e)
+        {
+            HighScores scorelist = new HighScores();
+            scorelist.Show();
             this.Close();
         }
     }

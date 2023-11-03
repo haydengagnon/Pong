@@ -13,9 +13,11 @@ namespace PongGame
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
+            this.KeyPreview = true;
             this.ClientSize = new Size(SCREEN_WIDTH, SCREEN_HEIGHT);
             this.DoubleBuffered = true;
             this.BackColor = Color.Black;
+            this.KeyDown += new KeyEventHandler(GoHome_KeyDown);
 
             Label title = new Label();
             title.Text = "Welcome to Survival Mode";
@@ -65,7 +67,7 @@ namespace PongGame
             this.Close();
         }
 
-        private void PSelect_KeyDown(object sender, KeyEventArgs e)
+        private void GoHome_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
             {
