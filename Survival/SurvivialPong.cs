@@ -163,6 +163,7 @@ namespace PongGame
             if (player2Score > 0)
             {
                 InsertData(sqlite_conn);
+                OrderData(sqlite_conn);
                 SurvivalGameOver p1score = new SurvivalGameOver(player1Score);
                 p1score.Show();
                 player2Score--;
@@ -181,22 +182,23 @@ namespace PongGame
             p1PaddleVelocity = 0;
         }
 
-        /*static SQLiteConnection CreateConnection()
-        {
-            SQLiteConnection sqlite_conn;
-            sqlite_conn = new SQLiteConnection("Data Source=ScoreList.db;New=False;");
-            sqlite_conn.Open();
-            return sqlite_conn;
-        }*/
-
         void InsertData(SQLiteConnection conn)
         {
-            sqlite_conn = new SQLiteConnection("Data Source=ScoreList.db;New=False;");
+            sqlite_conn = new SQLiteConnection("Data Source=Survival/ScoreList.db");
             sqlite_conn.Open();
             SQLiteCommand sqlite_cmd = new SQLiteCommand(sqlite_conn);
-            sqlite_cmd = conn.CreateCommand();
-            sqlite_cmd.CommandText = "INSERT INTO scores (Col1, Col2) VALUES (2, $player1Score);";
+            sqlite_cmd.CommandText = "INSERT INTO scores (score) VALUES ($player1Score);";
             sqlite_cmd.Parameters.AddWithValue("$player1Score", player1Score);
+            sqlite_cmd.ExecuteNonQuery();
+            sqlite_conn.Close();
+        }
+
+        void OrderData(SQLiteConnection conn)
+        {
+            sqlite_conn = new SQLiteConnection("Data Source=Survival/ScoreList.db");
+            sqlite_conn.Open();
+            SQLiteCommand sqlite_cmd = new SQLiteCommand(sqlite_conn);
+            sqlite_cmd.CommandText = "SELECT rowid, score FROM scores ORDER BY score DESC";
             sqlite_cmd.ExecuteNonQuery();
             sqlite_conn.Close();
         }

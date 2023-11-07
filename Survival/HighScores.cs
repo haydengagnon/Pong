@@ -10,11 +10,13 @@ namespace PongGame
     {
         private const int SCREEN_WIDTH = 1000;
         private const int SCREEN_HEIGHT = 600;
+        string topScoresQuery = "SELECT score FROM scores ORDER BY score DESC LIMIT 5";
         SQLiteConnection sqlite_conn;
 
         public HighScores()
         {
             InitializeComponent();
+            QueryTopScores(topScoresQuery);
             this.StartPosition = FormStartPosition.CenterScreen;
             this.ClientSize = new Size(SCREEN_WIDTH, SCREEN_HEIGHT);
             this.DoubleBuffered = true;
@@ -30,22 +32,74 @@ namespace PongGame
             gameCenter.BorderStyle = BorderStyle.None;
             this.Controls.Add(gameCenter);
 
+            Label listScores = new Label();
+            listScores.Text = Convert.ToString(topScoresQuery);
+            listScores.ForeColor = Color.White;
+            listScores.BackColor = Color.Black;
+            listScores.Font = new Font(gameCenter.Font.FontFamily, 28);
+            listScores.Size = new Size(SCREEN_WIDTH / 2, 100);
+            listScores.Location = new Point(250, 200);
+            listScores.BorderStyle = BorderStyle.None;
+            this.Controls.Add(listScores);
         }
 
-        static SQLiteConnection CreateConnection()
+        void OrderData(SQLiteConnection conn)
         {
-            SQLiteConnection sqlite_conn;
-            sqlite_conn = new SQLiteConnection("Data Source=ScoreList.db;New=False;");
+            sqlite_conn = new SQLiteConnection("Data Source=Survival/ScoreList.db");
             sqlite_conn.Open();
-            return sqlite_conn;
+            SQLiteCommand sqlite_cmd = new SQLiteCommand(sqlite_conn);
+            sqlite_cmd.CommandText = "SELECT score FROM scores ORDER BY score DESC LIMIT 5";
+            sqlite_cmd.ExecuteNonQuery();
+            sqlite_conn.Close();
         }
 
-        static void InsertData(SQLiteConnection conn)
+        void QueryTopScores(string txtQuery)
         {
-            SQLiteCommand sqlite_cmd;
-            sqlite_cmd = conn.CreateCommand();
-            sqlite_cmd.CommandText = "INSERT INTO scores (Col1, Col2) VALUES (2, score);";
+            sqlite_conn = new SQLiteConnection("Data Source=Survival/ScoreList.db");
+            sqlite_conn.Open();
+            SQLiteCommand sqlite_cmd = new SQLiteCommand(sqlite_conn);
+            sqlite_cmd.CommandText = txtQuery;
             sqlite_cmd.ExecuteNonQuery();
+            sqlite_conn.Close();
+        }
+
+        DataTable ExecuteReadQuery(string query)
+        {
+            DataTable entries = new DataTable();
+
+            using (SQLiteConnection db = new SQLiteConnection("Data Source=Survival/ScoreList.db"))
+            {
+                SQLiteCommand selectCommand = new SQLiteCommand(query, db);
+                try
+                {
+                    db.Open();
+                    SQLiteDataReader reader = selectCommand.ExecuteReader();
+
+                    if (reader.HasRows)
+                        for (int i = 0; i < reader.FieldCount; i++)
+                            entries.Columns.Add(new DataColumn(reader.GetName(i)));
+
+                    int j = 0;
+                    while (reader.Read())
+                    {
+                        DataRow row = entries.NewRow();
+                        entries.Rows.Add(row);
+
+                        for (int i = 0; i < reader.FieldCount; i++)
+                            entries.Rows[j][i] = (reader.GetValue(i));
+
+                        j++;
+                    }
+
+                    db.Close();
+                }
+                catch (SQLiteException e)
+                {
+                    //OnSQLiteError(new SQLiteErrorEventArgs(e));
+                    db.Close();
+                }
+                return entries;
+            }
         }
     }
 }
