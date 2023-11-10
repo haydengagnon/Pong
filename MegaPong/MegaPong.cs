@@ -25,13 +25,14 @@ namespace PongGame
         private int player2Lives = 5;
         private int player3Lives = 5;
         private int player4Lives = 5;
-        private int cpuMovement = 2;
+        private int cpuMovement = 5;
         private int direction;
+        private int cpumove;
 
         public MegaPong()
         {
             Random directionGenerator = new Random();
-            direction = directionGenerator.Next(3);
+            direction = directionGenerator.Next(4);
             if (direction == 0)
             {
                 ballXVelocity = -5;
@@ -154,17 +155,17 @@ namespace PongGame
             {
                 player2PaddleY += cpuMovement;
             }
-            else if (player2PaddleY == ballY - PADDLE_HEIGHT / 2 && player2PaddleY < SCREEN_HEIGHT - PADDLE_HEIGHT)
+            else if (player2PaddleY + 36 < ballY && player2PaddleY - 36 > ballY - PADDLE_HEIGHT && player2PaddleY < SCREEN_HEIGHT - PADDLE_HEIGHT && player2PaddleY > 0 && ballYVelocity == 0)
             {
-                Random moveGen = new Random();
-                int move = moveGen.Next(1);
-                if (move == 0)
+                Random cpumoveGenerator = new Random();
+                cpumove = cpumoveGenerator.Next(2);
+                if(cpumove == 0)
                 {
-                    player2PaddleY += cpuMovement * 4;
+                    player2PaddleY -= 10;
                 }
-                else if (move == 1)
+                else if(cpumove == 1)
                 {
-                    player2PaddleY -= cpuMovement * 4;
+                    player2PaddleY += 10;
                 }
             }
 
@@ -172,45 +173,45 @@ namespace PongGame
             {
                 player3PaddleX -= cpuMovement;
             }
-            else if (player3PaddleX < ballX - PADDLE_HEIGHT / 2 && player3PaddleX < SCREEN_WIDTH - PADDLE_HEIGHT)
+            else if (player3PaddleX < ballX - PADDLE_HEIGHT && player3PaddleX < SCREEN_WIDTH - PADDLE_HEIGHT)
             {
                 player3PaddleX += cpuMovement;
             }
-            /*else if (player3PaddleX == ballX - PADDLE_HEIGHT / 2 && player3PaddleX < SCREEN_WIDTH - PADDLE_HEIGHT)
+            else if (player3PaddleX + 36 < ballX && player3PaddleX - 36 > ballX - PADDLE_HEIGHT && player3PaddleX < SCREEN_WIDTH - PADDLE_HEIGHT && player3PaddleX > 0 && ballXVelocity == 0)
             {
-                Random moveGen = new Random();
-                int move = moveGen.Next(1);
-                if (move == 0)
+                Random cpumoveGenerator = new Random();
+                cpumove = cpumoveGenerator.Next(2);
+                if(cpumove == 0)
                 {
-                    player3PaddleX += cpuMovement * 2;
+                    player3PaddleX -= 10;
                 }
-                else if (move == 1)
+                else if(cpumove == 1)
                 {
-                    player3PaddleX -= cpuMovement * 2;
+                    player3PaddleX += 10;
                 }
-            }*/
+            }
 
             if (player4PaddleX > ballX && player4PaddleX > 0)
             {
                 player4PaddleX -= cpuMovement;
             }
-            else if (player4PaddleX < ballX - PADDLE_HEIGHT / 2  && player4PaddleX < SCREEN_WIDTH - PADDLE_HEIGHT)
+            else if (player4PaddleX < ballX - PADDLE_HEIGHT && player4PaddleX < SCREEN_WIDTH - PADDLE_HEIGHT)
             {
                 player4PaddleX += cpuMovement;
             }
-            /*else if (player4PaddleX == ballX - PADDLE_HEIGHT / 2 && player4PaddleX < SCREEN_WIDTH - PADDLE_HEIGHT)
+            else if (player4PaddleX + 36 < ballX && player4PaddleX - 36 > ballX - PADDLE_HEIGHT && player4PaddleX < SCREEN_WIDTH - PADDLE_HEIGHT && player4PaddleX > 0 && ballXVelocity == 0)
             {
-                Random moveGen = new Random();
-                int move = moveGen.Next(1);
-                if (move == 0)
+                Random cpumoveGenerator = new Random();
+                cpumove = cpumoveGenerator.Next(2);
+                if(cpumove == 0)
                 {
-                    player4PaddleX += cpuMovement * 2;
+                    player4PaddleX -= 10;
                 }
-                else if (move == 1)
+                else if(cpumove == 1)
                 {
-                    player4PaddleX -= cpuMovement * 2;
+                    player4PaddleX += 10;
                 }
-            }*/
+            }
 
             // Check if ball hits player paddles
             if (player1Lives > 0)
@@ -226,6 +227,10 @@ namespace PongGame
                     else if (ballY + 1 > player1PaddleY && ballY < player1PaddleY + PADDLE_HEIGHT /2)
                     {
                         ballYVelocity--;
+                    }
+                    if (ballXVelocity < 10)
+                    {
+                        ballXVelocity++;
                     }
                 }
             }
@@ -244,6 +249,10 @@ namespace PongGame
                     {
                         ballYVelocity--;
                     }
+                    if (ballXVelocity > -10)
+                    {
+                        ballXVelocity--;
+                    }
                 }
             }
 
@@ -261,6 +270,11 @@ namespace PongGame
                     {
                         ballXVelocity--;
                     }
+                    
+                    if (ballYVelocity < 10)
+                    {
+                        ballYVelocity++;
+                    }
                 }
             }
 
@@ -277,6 +291,11 @@ namespace PongGame
                     else if (ballX + 1 > player4PaddleX && ballX < player4PaddleX + PADDLE_HEIGHT / 2)
                     {
                         ballXVelocity--;
+                    }
+
+                    if (ballYVelocity > - 10)
+                    {
+                        ballYVelocity--;
                     }
                 }
             }
@@ -385,7 +404,7 @@ namespace PongGame
             ballY = SCREEN_HEIGHT / 2;
 
             Random directionGenerator = new Random();
-            direction = directionGenerator.Next(3);
+            direction = directionGenerator.Next(4);
             if (direction == 0)
             {
                 ballXVelocity = -5;

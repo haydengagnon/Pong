@@ -21,6 +21,8 @@ namespace PongGame
             this.ClientSize = new Size(SCREEN_WIDTH, SCREEN_HEIGHT);
             this.DoubleBuffered = true;
             this.BackColor = Color.Black;
+            this.KeyPreview = true;
+            this.KeyDown += new KeyEventHandler(GoHome_KeyDown);
 
             Label gameCenter = new Label();
             gameCenter.Text = "HIGH SCORES";
@@ -99,6 +101,16 @@ namespace PongGame
                     db.Close();
                 }
                 return entries;
+            }
+        }
+
+        private void GoHome_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                FormHome gohome = new FormHome();
+                gohome.Show();
+                this.Close();
             }
         }
     }

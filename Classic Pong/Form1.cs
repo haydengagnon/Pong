@@ -14,7 +14,7 @@ namespace PongGame
         public const int PADDLE_MOVE_AMOUNT = 8;
         public int ballX = SCREEN_WIDTH / 2;
         public int ballY = SCREEN_HEIGHT / 2;
-        public int ballXVelocity = -5;
+        public int ballXVelocity;
         public int ballYVelocity = 0;
         public int p1PaddleVelocity = 0;
         public int p2PaddleVelocity = 0;
@@ -22,9 +22,22 @@ namespace PongGame
         public int player2PaddleY = SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2;
         public int player1Score = 0;
         public int player2Score = 0;
+        private int direction;
 
         public Form1()
         {
+            Random directionGenerator = new Random();
+            direction = directionGenerator.Next(2);
+            if (direction == 0)
+            {
+                ballXVelocity = -5;
+                ballYVelocity = 0;
+            }
+            else if(direction == 1)
+            {
+                ballXVelocity = 5;
+                ballYVelocity = 0;
+            }
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.KeyPreview = true;
@@ -196,8 +209,18 @@ namespace PongGame
         {
             ballX = SCREEN_WIDTH / 2;
             ballY = SCREEN_HEIGHT / 2;
-            ballXVelocity = -5;
-            ballYVelocity = 0;
+            Random directionGenerator = new Random();
+            direction = directionGenerator.Next(2);
+            if (direction == 0)
+            {
+                ballXVelocity = -5;
+                ballYVelocity = 0;
+            }
+            else if(direction == 1)
+            {
+                ballXVelocity = 5;
+                ballYVelocity = 0;
+            }
             player1PaddleY = SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2;
             player2PaddleY = SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2;
         }

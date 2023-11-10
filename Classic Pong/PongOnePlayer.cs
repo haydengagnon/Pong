@@ -13,16 +13,30 @@ namespace PongGame
         private const int PADDLE_HEIGHT = 80;
         private int ballX = SCREEN_WIDTH / 2;
         private int ballY = SCREEN_HEIGHT / 2;
-        private int ballXVelocity = -5;
+        private int ballXVelocity = 0;
         private int ballYVelocity = 0;
         private int p1PaddleVelocity = 0;
         private int player1PaddleY = SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2;
         private int player2PaddleY = SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2;
         private int player1Score = 0;
         private int player2Score = 0;
+        private int direction;
+        private int cpumove;
 
         public PongOnePlayer()
         {
+            Random directionGenerator = new Random();
+            direction = directionGenerator.Next(2);
+            if (direction == 0)
+            {
+                ballXVelocity = -5;
+                ballYVelocity = 0;
+            }
+            else if(direction == 1)
+            {
+                ballXVelocity = 5;
+                ballYVelocity = 0;
+            }
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.ClientSize = new Size(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -99,9 +113,22 @@ namespace PongGame
             {
                 player2PaddleY -= 5;
             }
-            else if (player2PaddleY < ballY - PADDLE_HEIGHT / 2 && player2PaddleY < SCREEN_HEIGHT - PADDLE_HEIGHT)
+            else if (player2PaddleY < ballY - PADDLE_HEIGHT && player2PaddleY < SCREEN_HEIGHT - PADDLE_HEIGHT)
             {
                 player2PaddleY += 5;
+            }
+            else if (player2PaddleY + 36 < ballY && player2PaddleY - 36 > ballY - PADDLE_HEIGHT && player2PaddleY < SCREEN_HEIGHT - PADDLE_HEIGHT && player2PaddleY > 0 && ballYVelocity < 1)
+            {
+                Random cpumoveGenerator = new Random();
+                cpumove = cpumoveGenerator.Next(2);
+                if(cpumove == 0)
+                {
+                    player2PaddleY -= 10;
+                }
+                else if(cpumove == 1)
+                {
+                    player2PaddleY += 10;
+                }
             }
 
             // Check if ball hits top or bottom of screen
@@ -178,8 +205,18 @@ namespace PongGame
         {
             ballX = SCREEN_WIDTH / 2;
             ballY = SCREEN_HEIGHT / 2;
-            ballXVelocity = -5;
-            ballYVelocity = 0;
+            Random directionGenerator = new Random();
+            direction = directionGenerator.Next(2);
+            if (direction == 0)
+            {
+                ballXVelocity = -5;
+                ballYVelocity = 0;
+            }
+            else if(direction == 1)
+            {
+                ballXVelocity = 5;
+                ballYVelocity = 0;
+            }
             player1PaddleY = SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2;
             player2PaddleY = SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2;
             p1PaddleVelocity = 0;
