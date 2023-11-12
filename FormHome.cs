@@ -40,7 +40,7 @@ namespace PongGame
             survival.Text = "Survival Mode";
             survival.ForeColor = Color.Black;
             survival.BackColor = Color.Green;
-            survival.Location = new Point(SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 80);
+            survival.Location = new Point(SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 100);
             survival.Size = new Size(200, 60);
             survival.Click += new EventHandler(OnButtonClickedSurvival);
             this.Controls.Add(survival);
@@ -49,7 +49,7 @@ namespace PongGame
             pong.Text = "Pong";
             pong.ForeColor = Color.Black;
             pong.BackColor = Color.Green;
-            pong.Location = new Point(SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 - 80);
+            pong.Location = new Point(SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 - 60);
             pong.Size = new Size(200, 60);
             pong.Click += new EventHandler(OnButtonClickedPong);
             this.Controls.Add(pong);
@@ -58,7 +58,7 @@ namespace PongGame
             megaPong.Text = "Mega Pong";
             megaPong.ForeColor = Color.Black;
             megaPong.BackColor = Color.Green;
-            megaPong.Location = new Point(SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2);
+            megaPong.Location = new Point(SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 + 20);
             megaPong.Size = new Size(200, 60);
             megaPong.Click += new EventHandler(OnButtonClickedMegaPong);
             this.Controls.Add(megaPong);
@@ -67,10 +67,19 @@ namespace PongGame
             highScores.Text = "High Scores";
             highScores.ForeColor = Color.Black;
             highScores.BackColor = Color.Green;
-            highScores.Location = new Point(SCREEN_WIDTH / 2 + 120, SCREEN_HEIGHT / 2 + 80);
+            highScores.Location = new Point(SCREEN_WIDTH / 2 + 120, SCREEN_HEIGHT / 2 + 100);
             highScores.Size = new Size(200, 60);
             highScores.Click += new EventHandler(OnButtonClickedHighScores);
             this.Controls.Add(highScores);
+
+            Button campaign = new Button();
+            campaign.Text = "Campaign";
+            campaign.ForeColor = Color.Black;
+            campaign.BackColor = Color.Green;
+            campaign.Location = new Point(SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 - 140);
+            campaign.Size = new Size(200, 60);
+            campaign.Click += new EventHandler(OnButtonClickedCampaign);
+            this.Controls.Add(campaign);
         }
 
         private void OnButtonClickedPong(object sender, EventArgs e)
@@ -99,6 +108,13 @@ namespace PongGame
         {
             HighScores scorelist = new HighScores();
             scorelist.Show();
+            this.Close();
+        }
+
+        private void OnButtonClickedCampaign(object sender, EventArgs e)
+        {
+            CampaignHome levelSelect = new CampaignHome();
+            levelSelect.Show();
             this.Close();
         }
     }

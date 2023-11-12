@@ -62,7 +62,7 @@ namespace PongGame
             this.Paint += new PaintEventHandler(MegaPong_Paint);
             this.KeyDown += new KeyEventHandler(MegaPong_KeyDown);
             System.Windows.Forms.Timer gameTimer = new System.Windows.Forms.Timer();
-            gameTimer.Interval = 10;
+            gameTimer.Interval = 1;
             gameTimer.Tick += new EventHandler(GameTimer_Tick);
             gameTimer.Start();
         }
@@ -155,7 +155,8 @@ namespace PongGame
             {
                 player2PaddleY += cpuMovement;
             }
-            else if (player2PaddleY + 36 < ballY && player2PaddleY - 36 > ballY - PADDLE_HEIGHT && player2PaddleY < SCREEN_HEIGHT - PADDLE_HEIGHT && player2PaddleY > 0 && ballYVelocity == 0)
+            else if (player2PaddleY + 36 < ballY && player2PaddleY - 36 > ballY - PADDLE_HEIGHT && 
+                player2PaddleY < SCREEN_HEIGHT - PADDLE_HEIGHT && player2PaddleY > 0 && ballYVelocity == 0)
             {
                 Random cpumoveGenerator = new Random();
                 cpumove = cpumoveGenerator.Next(2);
@@ -177,7 +178,8 @@ namespace PongGame
             {
                 player3PaddleX += cpuMovement;
             }
-            else if (player3PaddleX + 36 < ballX && player3PaddleX - 36 > ballX - PADDLE_HEIGHT && player3PaddleX < SCREEN_WIDTH - PADDLE_HEIGHT && player3PaddleX > 0 && ballXVelocity == 0)
+            else if (player3PaddleX + 36 < ballX && player3PaddleX - 36 > ballX - PADDLE_HEIGHT && 
+                player3PaddleX < SCREEN_WIDTH - PADDLE_HEIGHT && player3PaddleX > 0 && ballXVelocity == 0)
             {
                 Random cpumoveGenerator = new Random();
                 cpumove = cpumoveGenerator.Next(2);
@@ -199,7 +201,8 @@ namespace PongGame
             {
                 player4PaddleX += cpuMovement;
             }
-            else if (player4PaddleX + 36 < ballX && player4PaddleX - 36 > ballX - PADDLE_HEIGHT && player4PaddleX < SCREEN_WIDTH - PADDLE_HEIGHT && player4PaddleX > 0 && ballXVelocity == 0)
+            else if (player4PaddleX + 36 < ballX && player4PaddleX - 36 > ballX - PADDLE_HEIGHT && 
+                player4PaddleX < SCREEN_WIDTH - PADDLE_HEIGHT && player4PaddleX > 0 && ballXVelocity == 0)
             {
                 Random cpumoveGenerator = new Random();
                 cpumove = cpumoveGenerator.Next(2);

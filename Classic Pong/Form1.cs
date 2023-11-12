@@ -47,7 +47,7 @@ namespace PongGame
             this.Paint += new PaintEventHandler(Form1_Paint);
             this.KeyDown += new KeyEventHandler(Form1_KeyDown);
             System.Windows.Forms.Timer gameTimer = new System.Windows.Forms.Timer();
-            gameTimer.Interval = 10;
+            gameTimer.Interval = 1;
             gameTimer.Tick += new EventHandler(GameTimer_Tick);
             gameTimer.Start();
         }

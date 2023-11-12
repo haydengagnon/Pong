@@ -45,7 +45,7 @@ namespace PongGame
             this.Paint += new PaintEventHandler(Form1_Paint);
             this.KeyDown += new KeyEventHandler(Form1_KeyDown);
             System.Windows.Forms.Timer gameTimer = new System.Windows.Forms.Timer();
-            gameTimer.Interval = 10;
+            gameTimer.Interval = 1;
             gameTimer.Tick += new EventHandler(GameTimer_Tick);
             gameTimer.Start();
         }
@@ -117,7 +117,8 @@ namespace PongGame
             {
                 player2PaddleY += 5;
             }
-            else if (player2PaddleY + 36 < ballY && player2PaddleY - 36 > ballY - PADDLE_HEIGHT && player2PaddleY < SCREEN_HEIGHT - PADDLE_HEIGHT && player2PaddleY > 0 && ballYVelocity < 1)
+            else if (player2PaddleY + 36 < ballY && player2PaddleY - 36 > ballY - PADDLE_HEIGHT && 
+                player2PaddleY < SCREEN_HEIGHT - PADDLE_HEIGHT && player2PaddleY > 0 && ballYVelocity == 0)
             {
                 Random cpumoveGenerator = new Random();
                 cpumove = cpumoveGenerator.Next(2);
