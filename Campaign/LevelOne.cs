@@ -79,6 +79,7 @@ namespace PongGame
 
             if (e.KeyCode == Keys.Escape)
             {
+                ballXVelocity = 0;
                 FormHome gohome = new FormHome();
                 gohome.Show();
                 this.Close();
@@ -189,9 +190,18 @@ namespace PongGame
             this.Invalidate();
             if (player1Score == 5)
             {
-                StreamWriter sw = new StreamWriter("Campaign/Unlocked.txt",true);
-                sw.WriteLine("1");
-                sw.Close();
+                if (!File.Exists("Unlocked.txt"))
+                {
+                    StreamWriter createFile = new StreamWriter("Unlocked.txt", true);
+                    createFile.WriteLine("1");
+                    createFile.Close();
+                }
+                else if (File.Exists("Unlocked.txt"))
+                {
+                    StreamWriter sw = new StreamWriter("Unlocked.txt",true);
+                    sw.WriteLine("1");
+                    sw.Close();
+                }
                 ballXVelocity = 0;
                 
                 CampaignHome winner1 = new CampaignHome();

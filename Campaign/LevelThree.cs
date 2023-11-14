@@ -90,6 +90,7 @@ namespace PongGame
 
             if (e.KeyCode == Keys.Escape)
             {
+                ballXVelocity = 0;
                 FormHome gohome = new FormHome();
                 gohome.Show();
                 this.Close();
@@ -232,7 +233,7 @@ namespace PongGame
             this.Invalidate();
             if (player1Score == 5)
             {
-                StreamWriter sw = new StreamWriter("Campaign/Unlocked.txt",true);
+                StreamWriter sw = new StreamWriter("Unlocked.txt",true);
                 sw.WriteLine("3");
                 sw.Close();
                 ballXVelocity = 0;
