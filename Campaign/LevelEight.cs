@@ -5,7 +5,7 @@ using System.IO;
 
 namespace PongGame
 {
-    public partial class LevelOne : Form
+    public partial class LevelEight : Form
     {
         private const int SCREEN_WIDTH = 1000;
         private const int SCREEN_HEIGHT = 600;
@@ -23,8 +23,14 @@ namespace PongGame
         private int player2Score = 0;
         private int direction;
         private int cpumove;
+        private int boostSpeed = 15;
+        private int realSpeed = 5;
+        private int boostX = 500;
+        private int boostY = 0;
+        private int boostWidth = 25;
+        private int boostHeight = SCREEN_WIDTH;
 
-        public LevelOne()
+        public LevelEight()
         {
             Random directionGenerator = new Random();
             direction = directionGenerator.Next(2);
@@ -60,6 +66,9 @@ namespace PongGame
             // Draw ball
             e.Graphics.FillEllipse(Brushes.White, ballX - BALL_RADIUS, ballY - BALL_RADIUS, BALL_RADIUS * 2, BALL_RADIUS * 2);
 
+            //Draw booster
+            e.Graphics.FillRectangle(Brushes.Orange, boostX, boostY, boostWidth, boostHeight);
+
             // Draw scores
             e.Graphics.DrawString(player1Score.ToString(), Font, Brushes.White, SCREEN_WIDTH / 2 - 50, 10);
             e.Graphics.DrawString(player2Score.ToString(), Font, Brushes.White, SCREEN_WIDTH / 2 + 30, 10);
@@ -79,10 +88,10 @@ namespace PongGame
 
             if (e.KeyCode == Keys.Escape)
             {
+                ballXVelocity = 0;
                 FormHome gohome = new FormHome();
                 gohome.Show();
                 this.Close();
-                ballXVelocity = 0;
             }
         }
 
@@ -113,11 +122,11 @@ namespace PongGame
             // Computer moves paddle
             if (player2PaddleY > ballY && player2PaddleY > 0)
             {
-                player2PaddleY -= 4;
+                player2PaddleY -= 6;
             }
             else if (player2PaddleY < ballY - PADDLE_HEIGHT && player2PaddleY < SCREEN_HEIGHT - PADDLE_HEIGHT)
             {
-                player2PaddleY += 4;
+                player2PaddleY += 6;
             }
             else if (player2PaddleY + 36 < ballY && player2PaddleY - 36 > ballY - PADDLE_HEIGHT && 
                 player2PaddleY < SCREEN_HEIGHT - PADDLE_HEIGHT && player2PaddleY > 0 && ballYVelocity == 0)
@@ -143,7 +152,7 @@ namespace PongGame
             // Check if ball hits player paddles
             if (ballX - BALL_RADIUS <= PADDLE_WIDTH && ballY >= player1PaddleY && ballY <= player1PaddleY + PADDLE_HEIGHT)
             {
-                ballXVelocity = -ballXVelocity;
+                ballXVelocity = realSpeed;
                 if (ballXVelocity < 10)
                 {
                     ballXVelocity++;
@@ -157,8 +166,10 @@ namespace PongGame
                     ballYVelocity--;
                 }
             }
-            else if (ballX + BALL_RADIUS >= SCREEN_WIDTH - PADDLE_WIDTH && ballY >= player2PaddleY && ballY <= player2PaddleY + PADDLE_HEIGHT)
+
+            if (ballX + BALL_RADIUS >= SCREEN_WIDTH - PADDLE_WIDTH && ballY >= player2PaddleY && ballY <= player2PaddleY + PADDLE_HEIGHT)
             {
+                realSpeed = ballXVelocity;
                 ballXVelocity = -ballXVelocity;
                 if (ballXVelocity > -10)
                 {
@@ -171,6 +182,15 @@ namespace PongGame
                 else if (ballY >= player2PaddleY && ballY < player2PaddleY + PADDLE_HEIGHT /2)
                 {
                     ballYVelocity--; 
+                }
+            }
+
+            // Check if ball gets boosted
+            if (ballXVelocity < 0)
+            {
+                if (ballX + BALL_RADIUS >= boostX && ballX - BALL_RADIUS <= boostX + boostWidth)
+                {
+                    ballXVelocity = -boostSpeed;
                 }
             }
 
@@ -191,7 +211,7 @@ namespace PongGame
             if (player1Score == 5)
             {
                 StreamWriter sw = new StreamWriter("Campaign/Unlocked.txt",true);
-                sw.WriteLine("1");
+                sw.WriteLine("8");
                 sw.Close();
                 ballXVelocity = 0;
                 
@@ -213,6 +233,7 @@ namespace PongGame
         {
             ballX = SCREEN_WIDTH / 2;
             ballY = SCREEN_HEIGHT / 2;
+            realSpeed = 5;
             Random directionGenerator = new Random();
             direction = directionGenerator.Next(2);
             if (direction == 0)

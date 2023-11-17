@@ -5,7 +5,7 @@ using System.IO;
 
 namespace PongGame
 {
-    public partial class LevelOne : Form
+    public partial class LevelSix : Form
     {
         private const int SCREEN_WIDTH = 1000;
         private const int SCREEN_HEIGHT = 600;
@@ -23,8 +23,16 @@ namespace PongGame
         private int player2Score = 0;
         private int direction;
         private int cpumove;
+        private bool obstacleOneVisible = true;
+        private bool obstacleTwoVisible = true;
+        private int obstacleOneX = 300;
+        private int obstacleTwoX = 625;
+        private const int obstacleWidth = 75;
+        private const int obstacleHeight = 200;
+        private int obstacleOneY = 0;
+        private int ObstacleTwoY = SCREEN_HEIGHT - obstacleHeight;
 
-        public LevelOne()
+        public LevelSix()
         {
             Random directionGenerator = new Random();
             direction = directionGenerator.Next(2);
@@ -60,6 +68,25 @@ namespace PongGame
             // Draw ball
             e.Graphics.FillEllipse(Brushes.White, ballX - BALL_RADIUS, ballY - BALL_RADIUS, BALL_RADIUS * 2, BALL_RADIUS * 2);
 
+            // Draw obstacles
+            if (obstacleOneVisible == true)
+            {
+                e.Graphics.FillRectangle(Brushes.Gray, obstacleOneX, obstacleOneY, obstacleWidth, obstacleHeight);
+            }
+            else if (obstacleOneVisible == false)
+            {
+
+            }
+
+            if (obstacleTwoVisible == true)
+            {
+                e.Graphics.FillRectangle(Brushes.Gray, obstacleTwoX, ObstacleTwoY, obstacleWidth, obstacleHeight);
+            }
+            else if (obstacleTwoVisible == false)
+            {
+
+            }
+
             // Draw scores
             e.Graphics.DrawString(player1Score.ToString(), Font, Brushes.White, SCREEN_WIDTH / 2 - 50, 10);
             e.Graphics.DrawString(player2Score.ToString(), Font, Brushes.White, SCREEN_WIDTH / 2 + 30, 10);
@@ -82,7 +109,6 @@ namespace PongGame
                 FormHome gohome = new FormHome();
                 gohome.Show();
                 this.Close();
-                ballXVelocity = 0;
             }
         }
 
@@ -113,11 +139,11 @@ namespace PongGame
             // Computer moves paddle
             if (player2PaddleY > ballY && player2PaddleY > 0)
             {
-                player2PaddleY -= 4;
+                player2PaddleY -= 6;
             }
             else if (player2PaddleY < ballY - PADDLE_HEIGHT && player2PaddleY < SCREEN_HEIGHT - PADDLE_HEIGHT)
             {
-                player2PaddleY += 4;
+                player2PaddleY += 6;
             }
             else if (player2PaddleY + 36 < ballY && player2PaddleY - 36 > ballY - PADDLE_HEIGHT && 
                 player2PaddleY < SCREEN_HEIGHT - PADDLE_HEIGHT && player2PaddleY > 0 && ballYVelocity == 0)
@@ -174,6 +200,29 @@ namespace PongGame
                 }
             }
 
+            // Check if ball hits obstacles
+            if (ballX + BALL_RADIUS >= obstacleOneX && ballX - BALL_RADIUS <= obstacleOneX + obstacleWidth && ballY - BALL_RADIUS <= obstacleOneY + obstacleHeight - 5)
+            {
+                ballXVelocity = -ballXVelocity;
+                obstacleOneVisible = false;
+            }
+            else if (ballX + BALL_RADIUS >= obstacleOneX && ballX - BALL_RADIUS <= obstacleOneX + obstacleWidth && ballY - BALL_RADIUS <= obstacleOneY + obstacleHeight && ballYVelocity < 0)
+            {
+                ballYVelocity = -ballYVelocity;
+                obstacleOneVisible = false;
+            }
+
+            if (ballX + BALL_RADIUS >= obstacleTwoX && ballX - BALL_RADIUS <= obstacleTwoX + obstacleWidth && ballY + BALL_RADIUS >= ObstacleTwoY + 5)
+            {
+                ballXVelocity = -ballXVelocity;
+                obstacleTwoVisible = false;
+            }
+            else if (ballX + BALL_RADIUS >= obstacleTwoX && ballX - BALL_RADIUS <= obstacleTwoX + obstacleWidth && ballY + BALL_RADIUS >= ObstacleTwoY && ballYVelocity > 0)
+            {
+                ballYVelocity = -ballYVelocity;
+                obstacleTwoVisible = false;
+            }
+
             // Check if ball goes out of bounds
             if (ballX - BALL_RADIUS <= 0)
             {
@@ -191,7 +240,7 @@ namespace PongGame
             if (player1Score == 5)
             {
                 StreamWriter sw = new StreamWriter("Campaign/Unlocked.txt",true);
-                sw.WriteLine("1");
+                sw.WriteLine("5");
                 sw.Close();
                 ballXVelocity = 0;
                 
@@ -228,6 +277,8 @@ namespace PongGame
             player1PaddleY = SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2;
             player2PaddleY = SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2;
             p1PaddleVelocity = 0;
+            obstacleOneVisible = true;
+            obstacleTwoVisible = true;
         }
     }
 }

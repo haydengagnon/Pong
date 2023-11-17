@@ -5,7 +5,7 @@ using System.IO;
 
 namespace PongGame
 {
-    public partial class LevelOne : Form
+    public partial class LevelSeven : Form
     {
         private const int SCREEN_WIDTH = 1000;
         private const int SCREEN_HEIGHT = 600;
@@ -23,20 +23,42 @@ namespace PongGame
         private int player2Score = 0;
         private int direction;
         private int cpumove;
+        private const int obstacle1X = 250;
+        private const int obstacle1Y = 200;
+        private const int obstacle2X = 700;
+        private const int obstacle2Y = 200;
+        private const int obstacle3X = 350;
+        private const int obstacle3Y = 50;
+        private const int obstacle4X = 350;
+        private const int obstacle4Y = 500;
+        private const int obstacleLongWidth = 300;
+        private const int obstacleLongHeight = 50;
+        private const int obstacleTallWidth = 50;
+        private const int obstacleTallHeight = 200;
 
-        public LevelOne()
+        public LevelSeven()
         {
             Random directionGenerator = new Random();
-            direction = directionGenerator.Next(2);
+            direction = directionGenerator.Next(4);
             if (direction == 0)
             {
                 ballXVelocity = -5;
-                ballYVelocity = 0;
+                ballYVelocity = 3;
             }
             else if(direction == 1)
             {
+                ballXVelocity = -5;
+                ballYVelocity = -3;
+            }
+            else if(direction == 2)
+            {
                 ballXVelocity = 5;
-                ballYVelocity = 0;
+                ballYVelocity = 3;
+            }
+            else if(direction == 3)
+            {
+                ballXVelocity = 5;
+                ballYVelocity = -3;
             }
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -59,6 +81,12 @@ namespace PongGame
 
             // Draw ball
             e.Graphics.FillEllipse(Brushes.White, ballX - BALL_RADIUS, ballY - BALL_RADIUS, BALL_RADIUS * 2, BALL_RADIUS * 2);
+
+            // Draw obstacles
+            e.Graphics.FillRectangle(Brushes.Gray, obstacle1X, obstacle1Y, obstacleTallWidth, obstacleTallHeight);
+            e.Graphics.FillRectangle(Brushes.Gray, obstacle2X, obstacle2Y, obstacleTallWidth, obstacleTallHeight);
+            e.Graphics.FillRectangle(Brushes.Gray, obstacle3X, obstacle3Y, obstacleLongWidth, obstacleLongHeight);
+            e.Graphics.FillRectangle(Brushes.Gray, obstacle4X, obstacle4Y, obstacleLongWidth, obstacleLongHeight);
 
             // Draw scores
             e.Graphics.DrawString(player1Score.ToString(), Font, Brushes.White, SCREEN_WIDTH / 2 - 50, 10);
@@ -113,11 +141,11 @@ namespace PongGame
             // Computer moves paddle
             if (player2PaddleY > ballY && player2PaddleY > 0)
             {
-                player2PaddleY -= 4;
+                player2PaddleY -= 6;
             }
             else if (player2PaddleY < ballY - PADDLE_HEIGHT && player2PaddleY < SCREEN_HEIGHT - PADDLE_HEIGHT)
             {
-                player2PaddleY += 4;
+                player2PaddleY += 6;
             }
             else if (player2PaddleY + 36 < ballY && player2PaddleY - 36 > ballY - PADDLE_HEIGHT && 
                 player2PaddleY < SCREEN_HEIGHT - PADDLE_HEIGHT && player2PaddleY > 0 && ballYVelocity == 0)
@@ -135,7 +163,44 @@ namespace PongGame
             }
 
             // Check if ball hits top or bottom of screen
-            if (ballY - BALL_RADIUS <= 0 || ballY + BALL_RADIUS >= SCREEN_HEIGHT)
+            if (ballY - BALL_RADIUS < 0 || ballY + BALL_RADIUS > SCREEN_HEIGHT)
+            {
+                ballYVelocity = -ballYVelocity;
+            }
+
+            // Check if ball hits obstacles
+            if (ballX + BALL_RADIUS + ballXVelocity > obstacle1X && ballX - BALL_RADIUS + ballXVelocity <= obstacle1X + obstacleTallWidth && ballY + BALL_RADIUS >= obstacle1Y && ballY - BALL_RADIUS <= obstacle1Y + obstacleTallHeight)
+            {
+                ballXVelocity = -ballXVelocity;
+            }
+            else if (ballX + BALL_RADIUS >= obstacle1X && ballX - BALL_RADIUS <= obstacle1X + obstacleTallWidth && ballY + BALL_RADIUS + ballYVelocity >= obstacle1Y && ballY - BALL_RADIUS + ballYVelocity <= obstacle1Y + obstacleTallHeight)
+            {
+                ballYVelocity = -ballYVelocity;
+            }
+
+            if (ballX + BALL_RADIUS + ballXVelocity >= obstacle2X && ballX - BALL_RADIUS + ballXVelocity <= obstacle2X + obstacleTallWidth && ballY + BALL_RADIUS >= obstacle2Y && ballY - BALL_RADIUS <= obstacle2Y + obstacleTallHeight)
+            {
+                ballXVelocity = -ballXVelocity;
+            }
+            else if (ballX + BALL_RADIUS >= obstacle2X && ballX - BALL_RADIUS <= obstacle2X + obstacleTallWidth && ballY + BALL_RADIUS + ballYVelocity >= obstacle2Y && ballY - BALL_RADIUS + ballYVelocity <= obstacle2Y + obstacleTallHeight)
+            {
+                ballYVelocity = -ballYVelocity;
+            }
+
+            if (ballX + BALL_RADIUS + ballXVelocity >= obstacle3X  && ballX - BALL_RADIUS + ballXVelocity <= obstacle3X + obstacleLongWidth  && ballY + BALL_RADIUS >= obstacle3Y && ballY - BALL_RADIUS <= obstacle3Y + obstacleLongHeight)
+            {
+                ballXVelocity = -ballXVelocity;
+            }
+            else if (ballX + BALL_RADIUS >= obstacle3X && ballX - BALL_RADIUS <= obstacle3X + obstacleLongWidth && ballY + BALL_RADIUS + ballYVelocity >= obstacle3Y && ballY - BALL_RADIUS + ballYVelocity <= obstacle3Y + obstacleLongHeight)
+            {
+                ballYVelocity = -ballYVelocity;
+            }
+
+            if (ballX + BALL_RADIUS + ballXVelocity >= obstacle4X && ballX - BALL_RADIUS + ballXVelocity <= obstacle4X + obstacleLongWidth && ballY + BALL_RADIUS >= obstacle4Y && ballY - BALL_RADIUS <= obstacle4Y + obstacleLongHeight)
+            {
+                ballXVelocity = -ballXVelocity;
+            }
+            else if (ballX + BALL_RADIUS >= obstacle4X && ballX - BALL_RADIUS <= obstacle4X + obstacleLongWidth && ballY + BALL_RADIUS + ballYVelocity >= obstacle4Y && ballY - BALL_RADIUS + ballYVelocity <= obstacle4Y + obstacleLongHeight)
             {
                 ballYVelocity = -ballYVelocity;
             }
@@ -191,7 +256,7 @@ namespace PongGame
             if (player1Score == 5)
             {
                 StreamWriter sw = new StreamWriter("Campaign/Unlocked.txt",true);
-                sw.WriteLine("1");
+                sw.WriteLine("7");
                 sw.Close();
                 ballXVelocity = 0;
                 
@@ -218,12 +283,22 @@ namespace PongGame
             if (direction == 0)
             {
                 ballXVelocity = -5;
-                ballYVelocity = 0;
+                ballYVelocity = 3;
             }
             else if(direction == 1)
             {
+                ballXVelocity = -5;
+                ballYVelocity = -3;
+            }
+            else if(direction == 2)
+            {
                 ballXVelocity = 5;
-                ballYVelocity = 0;
+                ballYVelocity = 3;
+            }
+            else if(direction == 3)
+            {
+                ballXVelocity = 5;
+                ballYVelocity = -3;
             }
             player1PaddleY = SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2;
             player2PaddleY = SCREEN_HEIGHT / 2 - PADDLE_HEIGHT / 2;

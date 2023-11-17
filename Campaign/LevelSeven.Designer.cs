@@ -1,6 +1,6 @@
 namespace PongGame;
 
-partial class LevelOne
+partial class LevelSeven
 {
     /// <summary>
     ///  Required designer variable.
@@ -31,7 +31,7 @@ partial class LevelOne
         this.components = new System.ComponentModel.Container();
         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         this.ClientSize = new System.Drawing.Size(800, 450);
-        this.Text = "Level 1";
+        this.Text = "Level 7";
     }
 
     #endregion
