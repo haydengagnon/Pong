@@ -24,7 +24,7 @@ namespace PongGame
         {
             try
             {
-                StreamReader sr = new StreamReader("Campaign/Unlocked.txt");
+                StreamReader sr = new StreamReader("Unlocked.txt");
                 line = sr.ReadLine();
                 while (line != null)
                 {
