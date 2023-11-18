@@ -1220,11 +1220,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Pong\\PongGame.csproj",
+      "projectUniqueName": "c:\\Pong\\PongGame.csproj",
       "projectName": "PongGame",
-      "projectPath": "C:\\Pong\\PongGame.csproj",
+      "projectPath": "c:\\Pong\\PongGame.csproj",
       "packagesPath": "C:\\Users\\nibbl\\.nuget\\packages\\",
-      "outputPath": "C:\\Pong\\obj\\",
+      "outputPath": "c:\\Pong\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\nibbl\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -1275,7 +1275,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
       }
     }
   }
