@@ -322,7 +322,7 @@ namespace PongGame
             if (player1Score == 5)
             {
                 StreamWriter sw = new StreamWriter("Campaign/Unlocked.txt",true);
-                sw.WriteLine("1");
+                sw.WriteLine("5");
                 sw.Close();
                 ballXVelocity = 0;
                 

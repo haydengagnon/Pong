@@ -83,6 +83,7 @@ namespace PongGame
                 FormHome gohome = new FormHome();
                 gohome.Show();
                 this.Close();
+                ballXVelocity = 0;
             }
         }
 

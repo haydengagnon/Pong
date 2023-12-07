@@ -1,6 +1,6 @@
 namespace PongGame;
 
-partial class LevelOne 
+partial class LevelOne
 {
     /// <summary>
     ///  Required designer variable.
